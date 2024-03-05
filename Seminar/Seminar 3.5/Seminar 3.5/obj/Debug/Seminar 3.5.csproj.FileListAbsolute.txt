@@ -1,0 +1,10 @@
+C:\Users\stud\source\repos\Seminar 3.5\Seminar 3.5\bin\Debug\Seminar 3.5.exe.config
+C:\Users\stud\source\repos\Seminar 3.5\Seminar 3.5\bin\Debug\Seminar 3.5.exe
+C:\Users\stud\source\repos\Seminar 3.5\Seminar 3.5\bin\Debug\Seminar 3.5.pdb
+C:\Users\stud\source\repos\Seminar 3.5\Seminar 3.5\obj\Debug\Seminar 3.5.csproj.AssemblyReference.cache
+C:\Users\stud\source\repos\Seminar 3.5\Seminar 3.5\obj\Debug\Seminar_3._5.Form1.resources
+C:\Users\stud\source\repos\Seminar 3.5\Seminar 3.5\obj\Debug\Seminar_3._5.Properties.Resources.resources
+C:\Users\stud\source\repos\Seminar 3.5\Seminar 3.5\obj\Debug\Seminar 3.5.csproj.GenerateResource.cache
+C:\Users\stud\source\repos\Seminar 3.5\Seminar 3.5\obj\Debug\Seminar 3.5.csproj.CoreCompileInputs.cache
+C:\Users\stud\source\repos\Seminar 3.5\Seminar 3.5\obj\Debug\Seminar 3.5.exe
+C:\Users\stud\source\repos\Seminar 3.5\Seminar 3.5\obj\Debug\Seminar 3.5.pdb
