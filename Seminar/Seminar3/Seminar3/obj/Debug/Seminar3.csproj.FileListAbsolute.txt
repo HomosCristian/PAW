@@ -1,0 +1,7 @@
+C:\Users\stud\source\repos\Seminar3\Seminar3\bin\Debug\Seminar3.exe.config
+C:\Users\stud\source\repos\Seminar3\Seminar3\bin\Debug\Seminar3.exe
+C:\Users\stud\source\repos\Seminar3\Seminar3\bin\Debug\Seminar3.pdb
+C:\Users\stud\source\repos\Seminar3\Seminar3\obj\Debug\Seminar3.csproj.AssemblyReference.cache
+C:\Users\stud\source\repos\Seminar3\Seminar3\obj\Debug\Seminar3.csproj.CoreCompileInputs.cache
+C:\Users\stud\source\repos\Seminar3\Seminar3\obj\Debug\Seminar3.exe
+C:\Users\stud\source\repos\Seminar3\Seminar3\obj\Debug\Seminar3.pdb
