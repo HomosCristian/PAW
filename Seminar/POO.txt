@@ -1,0 +1,248 @@
+// Form Secundar
+
+public partial class FormProfesor : Form
+{
+    //Cream un obiect de tip Profesor
+    public Profesor pFormProfesor;
+    public FormProfesor(Profesor p)
+    {
+        InitializeComponent();
+        if(p == null) 
+        {
+           p = new Profesor();
+            btnAdauga.Text = "Adauga";
+        }
+        else
+        {
+            btnAdauga.Text = "Editeaza";
+            tbCnp.Text = p.Cnp;
+            tbNume.Text = p.Nume;
+            cbSpecializare.Text = p.Specializare;
+            dateDataNastere.Value = p.DataNastere;
+        }
+        pFormProfesor = p;
+    }
+
+    private void label2_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btnAdauga_Click(object sender, EventArgs e)
+    {
+        // Datele medicului ajung in Form1 prin referinta primita in constructor
+        pFormProfesor.Cnp = tbCnp.Text;
+        pFormProfesor.Nume = tbNume.Text;
+        pFormProfesor.Specializare = cbSpecializare.SelectedItem.ToString();
+        pFormProfesor.DataNastere = dateDataNastere.Value;
+    }
+}
+
+// Form Principal
+
+public partial class Form1 : Form
+{
+    Profesor p1, p2;
+    public Form1()
+    {
+        InitializeComponent();
+        // Instantiere profesori
+        p1 = new Profesor("5039217190278", "Marian", "PAW", new DateTime(1980, 05, 25));
+        p2 = new Profesor("5034564190278", "George", "POO", new DateTime(1981, 07, 21));
+
+        //Adaugare in ListBox
+        lbProfesori.Items.Add(p1);
+        lbProfesori.Items.Add(p2);
+
+        //Adaugare in ListView
+
+        //Metoda 1
+        ListViewItem list = new ListViewItem(p1.Nume);
+        list.SubItems.Add(p1.Cnp);
+        list.SubItems.Add(p1.Specializare);
+        list.SubItems.Add(p1.DataNastere.ToString());
+        list.Tag = p1;
+        lvProfesori.Items.Add(list);
+
+        //Metoda 2
+        ListViewItem list2 = new ListViewItem(new string[]
+            {p2.Nume,p2.Cnp,p2.Specializare,p2.DataNastere.ToString()});
+        list2.Tag = p2;
+        lvProfesori.Items.Add(list2);
+
+        // Adaugare in TreeNode
+        TreeNode t1 = new TreeNode(p1.Nume + " " + p1.Specializare);
+        t1.Tag = p1;
+        tvProfesori.Nodes.Add(t1);
+
+        TreeNode t2 = new TreeNode(p2.Nume + " " + p2.Specializare);
+        t2.Tag = p2;
+        tvProfesori.Nodes.Add(t2);
+
+        // Instantiere student + Adaugare in ListView
+        Student s1, s2;
+        s1 = new Student("5023456190278", "Andrei", "INFO", new DateTime(2002, 05, 25));
+        s2 = new Student("5949483290278", "Alex", "Statistica", new DateTime(2002, 05, 25));
+        ListViewItem listaStudenti = new ListViewItem(new string[]
+            {s1.Nume,s1.Cnp,s1.Specializare,s1.DataNastere.ToString()});
+        listaStudenti.Tag = s1;
+        lvStudenti.Items.Add(listaStudenti);
+        ListViewItem listaStudenti1 = new ListViewItem(new string[]
+            {s2.Nume,s2.Cnp,s2.Specializare,s2.DataNastere.ToString()});
+        listaStudenti1.Tag = s2;
+        lvStudenti.Items.Add(listaStudenti1);
+
+
+    }
+
+    private void lvProfesori_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        //Afisare element selectat din ListView in TextBox
+        if (lvProfesori.SelectedItems.Count > 0)
+        {
+            tbProfesori.Text = "";
+            ListViewItem list = lvProfesori.SelectedItems[0];
+            tbProfesori.Text += list.Text + 
+                "," + list.SubItems[1].Text + "," + list.SubItems[2].Text +
+                "," + list.SubItems[3].Text;
+        }
+    }
+
+    private void lbProfesori_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (lbProfesori.SelectedItem != null)
+            lbProfesori.Text = lbProfesori.SelectedItem.ToString();
+            
+    }
+
+    private void adaugaToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // Initializam un obiect de tip Profesor cu null si il introducem in Formul Secundar
+        Profesor p = null;
+        FormProfesor form = new FormProfesor(p);
+        if(form.ShowDialog() == DialogResult.OK)
+        {
+            p = form.pFormProfesor;
+            // Refolosim codul de la adaugare in ListView de mai sus
+            ListViewItem lv3 = new ListViewItem(new string[]
+                {p.Nume,p.Cnp,p.Specializare,p.DataNastere.ToString()});
+            lv3.Tag = p;
+            lvProfesori.Items.Add(lv3);
+        }
+        
+    }
+
+    private void stergeToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (lvProfesori.SelectedItems.Count > 0)
+        {
+            if (MessageBox.Show("Esti sigur?", "Confirmare", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                lvProfesori.SelectedItems[0].Remove();
+            }
+        }
+    }
+
+    private void modificaToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (lvProfesori.SelectedItems.Count > 0)
+        {
+            Profesor p = lvProfesori.SelectedItems[0].Tag as Profesor;
+            FormProfesor form = new FormProfesor(p);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                ListViewItem lv = lvProfesori.SelectedItems[0] as ListViewItem;
+                lv.SubItems[0].Text = p.Nume;
+                lv.SubItems[1].Text = p.Cnp;
+                lv.SubItems[3].Text = p.Specializare;
+                lv.SubItems[4].Text = p.DataNastere.ToString();
+            }
+        }
+    }
+
+    private void contextMenuStrip1_Opened(object sender, EventArgs e)
+    {
+
+    }
+
+    private void adaugaToolStripMenuItem1_Click(object sender, EventArgs e)
+    {
+        adaugaToolStripMenuItem_Click(sender, e); 
+    }
+
+    private void modificaToolStripMenuItem1_Click(object sender, EventArgs e)
+    {
+        modificaToolStripMenuItem_Click(sender, e);
+    }
+
+    private void stergeToolStripMenuItem1_Click(object sender, EventArgs e)
+    {
+        stergeToolStripMenuItem_Click(sender, e);
+    }
+
+    private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+    {
+        if (lvProfesori.SelectedItems.Count > 0)
+        {
+            modificaToolStripMenuItem.Enabled = true;
+            stergeToolStripMenuItem.Enabled = true;
+        }
+        else
+        {
+            modificaToolStripMenuItem.Enabled = false;
+            stergeToolStripMenuItem.Enabled = false;
+        }
+    }
+
+    private void tvProfesori_DragEnter(object sender, DragEventArgs e)
+    {
+        if (e.Data.GetDataPresent(new Student().GetType().ToString()))
+            e.Effect = DragDropEffects.Copy;
+        else
+            e.Effect = DragDropEffects.None;
+    }
+
+    private void tvProfesori_DragDrop(object sender, DragEventArgs e)
+    {
+        Point punct = new Point(e.X, e.Y);
+        Point punctDinTreeview = tvProfesori.PointToClient(punct);
+        TreeNode tn = tvProfesori.GetNodeAt(punctDinTreeview);
+
+        if (!(tn is null) && e.Effect == DragDropEffects.Copy &&
+             e.Data.GetDataPresent(new Student().GetType().ToString()))
+        {
+            Student p = (Student)e.Data.GetData(new Student().GetType().ToString());
+            TreeNode t = new TreeNode(p.Nume + " " + p.Specializare);
+            t.Tag = p;
+            tn.Nodes.Add(t);
+            tn.Expand();
+        }
+    }
+
+    private void lvStudenti_MouseDown(object sender, MouseEventArgs e)
+    {
+        if (lvStudenti.SelectedItems.Count > 0)
+            lvStudenti.DoDragDrop((Student)lvStudenti.SelectedItems[0].Tag,
+                DragDropEffects.Copy);
+    }
+
+    private void Form1_Load(object sender, EventArgs e)
+    {
+
+    }
+}
+
+// La ListView mai intai adaugam obiecte in el
+// Dupa adaugam coloane si punem in properties pe Details
+// Facem Formul Secundar
+// La Formul Secundar adaugam toate atributele profesorului (TextBox, ComboBox, DateTimePicker) si butoanele la care schimbam DialogResult - ul. 
+// Implementam metoda pt adaugare pe eventul click de la butonul adauga
+
+// La ContextMenuStrip trebuie sa implementam cele 3 butoane (adauga, modifica, sterge) si sa implementam eventul Opening
+// Dupa activam ContextMenuStrip din propietatile ListView ului
+
+// La MenuStrip implementam cele trei butoane (adauga, modifica, sterge)
+
+// La TreeNode mai intai adaugam obiecte in el
+// Dupa la properties punem CheckBoxes si LabelEdit pe True
+// Implementam cele doua eventuri DragDrop si DragEnter si dupa implementam eventul MouseDown la evenutrile ListView - ului.
