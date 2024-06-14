@@ -1,0 +1,93 @@
+// Form Principal
+
+// Adaugare
+
+Student s = null;
+FromStudent fromStudent = new FromStudent(s);
+
+if(fromStudent.ShowDialog() == DialogResult.OK)
+{
+    s = fromStudent.sFormStudent;
+
+    ListViewItem lvi1 = new ListViewItem(s.Matricol);
+    lvi1.SubItems.Add(s.Nume);
+    lvi1.SubItems.Add(s.Medie.ToString());
+    lvi1.Tag = s;
+    lvStudenti.Items.Add(lvi1);
+
+}
+
+// Modificare
+
+ if (lvStudenti.SelectedItems.Count > 0)
+ {
+     Student s = lvStudenti.SelectedItems[0].Tag as Student;
+     FromStudent form = new FromStudent(s);
+     if (form.ShowDialog() == DialogResult.OK)
+     {
+         ListViewItem lv = lvStudenti.SelectedItems[0] as ListViewItem;
+         lv.SubItems[0].Text = s.Matricol;
+         lv.SubItems[1].Text = s.Nume;
+         lv.SubItems[2].Text = s.Medie.ToString();
+     }
+ }
+
+// Form Secundar
+
+public Student sFormStudent;
+public FromStudent(Student s)
+{
+    InitializeComponent();
+    if(s == null )
+    
+    {
+        s = new Student();
+        button2.Text = "Adauga";
+    }
+    else
+    {
+        button2.Text = "Editeaza";
+        tbMatricol.Text = s.Matricol;
+        tbNume.Text = s.Nume;
+        tbMedie.Text = s.Medie.ToString();
+        
+    }
+    sFormStudent = s;
+}
+
+// Buton FormSecundar
+
+ sFormStudent.Matricol = tbMatricol.Text;
+ sFormStudent.Nume = tbNume.Text;
+ sFormStudent.Medie = Convert.ToInt32(tbMedie.Text);
+
+// Baza de date
+
+public List<Student> GetStudent()
+{
+    var rez = new List<Student>();
+
+    using(var connection = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Homos Cristian\\source\\repos\\SubiectStudenti\\studenti.mdf\";Integrated Security=True;Connect Timeout=30"))
+    {
+        connection.Open();
+        using(var command = new SqlCommand("SELECT Matricol, Nume, Medie FROM Student", connection)) 
+        {
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                var matricol = reader.GetString(0);
+                var nume = reader.GetString(1);
+                var medie = reader.GetInt32(2);
+
+                var student = new Student(matricol, nume, medie);
+                rez.Add(student);
+            }
+
+           
+        }
+        connection.Close();
+
+    }
+
+    return rez;
+}
